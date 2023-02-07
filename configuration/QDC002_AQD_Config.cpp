@@ -41,7 +41,9 @@ struct analytical_query_2_config AQD_CONFIG::read_analytical_query_2_configs(std
   std::ifstream f(file_name);
   json configs = json::parse(f);
 
-  analytical_query_2_config query_configs = {.pr_max_iterations = configs["AQD_query_2_pr_max_iterations"].get<int>()};
+  analytical_query_2_config query_configs = {.pr_max_iterations = configs["AQD_query_2_pr_max_iterations"].get<int>(),
+                                             .pr_damping_factor = configs["AQD_query_2_pr_damping_factor"].get<double>()
+                                              };
   return query_configs;
 }
 

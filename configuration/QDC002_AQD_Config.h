@@ -36,6 +36,7 @@ struct analytical_query_2_config{
     Configurations for Analytical Query 2: PageRank
   */
   int pr_max_iterations;
+  double pr_damping_factor;
 };
 
 struct analytical_query_3_config{

@@ -14,9 +14,9 @@ import sys
 
 configs = {}
 
-configs["experiment_mode"] = "TRANSACTIONAL"
-configs["warm_up_duration"] = 5000
-configs["data_collection_duration"] = 5000
+configs["experiment_mode"] = "HYBRID"
+configs["warm_up_duration"] = 10000
+configs["data_collection_duration"] = 10000
 configs["number_of_analytical_threads"] = 10
 configs["number_of_transactional_threads"] = 10
 configs["enable_freshness_score"] = True
@@ -157,6 +157,7 @@ configs["AQD_query_1_leader_list_2_bfs_root_power_dis_param"] = 9
 
 #AQ_2
 configs["AQD_query_2_pr_max_iterations"] = 10000
+configs["AQD_query_2_pr_damping_factor"] = 0.85
 
 #AQ_3
 configs["AQD_query_5_cdlp_max_iterations"] = 10000
