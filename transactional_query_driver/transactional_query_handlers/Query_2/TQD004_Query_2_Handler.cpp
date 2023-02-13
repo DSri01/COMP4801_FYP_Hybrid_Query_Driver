@@ -43,7 +43,8 @@ void TQ_2::operation_handler(struct input_struct* input, struct output_struct* o
   //perform operation here
   output->end_time = get_current_epoch_time_in_milliseconds();
   output->success = true;
-
+  output->investor_name = "investorA";
+  output->investment_amount = 100;
   /*--------------------------------------------------------------------------*/
   /*--------------------------------------------------------------------------*/
 

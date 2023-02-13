@@ -11,6 +11,8 @@ Description:
 #include "../../../utils/QDU001_Time.h"
 #include "../../../utils/QDU002_Random.h"
 
+#include <string>
+
 #ifndef TQD004_QUERY_2_HANDLER_H
 #define TQD004_QUERY_2_HANDLER_H
 
@@ -28,6 +30,8 @@ namespace TQ_2 {
   struct output_struct {
     uint64_t start_time;
     uint64_t end_time;
+    std::string investor_name;
+    int investment_amount;
     bool success;
   };
 
