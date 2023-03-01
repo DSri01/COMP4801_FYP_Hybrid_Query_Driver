@@ -15,8 +15,8 @@ import sys
 configs = {}
 
 configs["experiment_mode"] = "HYBRID"
-configs["warm_up_duration"] = 10000
-configs["data_collection_duration"] = 10000
+configs["warm_up_duration"] = 2000
+configs["data_collection_duration"] = 2000
 configs["number_of_analytical_threads"] = 10
 configs["number_of_transactional_threads"] = 10
 configs["enable_freshness_score"] = True

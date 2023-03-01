@@ -22,8 +22,8 @@ namespace TQ_8 {
     int thread_ID;
     unsigned long transaction_ID;
 
-    unsigned long source_investor_ID;
-    unsigned long destination_investor_ID;
+    unsigned long source_tradebook_ID;
+    unsigned long destination_tradebook_ID;
   };
 
   struct output_struct {

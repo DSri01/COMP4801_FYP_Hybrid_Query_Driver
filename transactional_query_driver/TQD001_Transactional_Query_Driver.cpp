@@ -341,8 +341,8 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_8(thread_data* t_data_pointer,
   TQ_8::input_struct* op_input = new TQ_8::input_struct();
   op_input->thread_ID = t_data_pointer->thread_id;
   op_input->transaction_ID = t_data_pointer->current_transaction_ID;
-  op_input->source_investor_ID = config->remove_mirror_edge_source_ID_list[t_data_pointer->remove_list_current_index_for_thread];
-  op_input->destination_investor_ID = config->remove_mirror_edge_destination_ID_list[t_data_pointer->remove_list_current_index_for_thread];
+  op_input->source_tradebook_ID = config->remove_mirror_edge_source_ID_list[t_data_pointer->remove_list_current_index_for_thread];
+  op_input->destination_tradebook_ID = config->remove_mirror_edge_destination_ID_list[t_data_pointer->remove_list_current_index_for_thread];
 
   TQ_8::output_struct* op_output = new TQ_8::output_struct();
   TQ_8::perform_operation(config, op_output, op_input);
