@@ -86,6 +86,7 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
 
         current_node->start_time = query_3_output->start_time;
         current_node->end_time = query_3_output->end_time;
+        current_node->query_type = "TQ_3";
         current_node->transaction_ID = current_transaction_ID;
 
         current_transaction_ID += 1;
@@ -118,6 +119,7 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
 
         current_node->start_time = query_6_output->start_time;
         current_node->end_time = query_6_output->end_time;
+        current_node->query_type = "TQ_6";
         current_node->transaction_ID = current_transaction_ID;
 
         current_transaction_ID += 1;
@@ -159,6 +161,8 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
 
     /*--------------------------------------------------------------------------*/
     /*--------------------------------------------------------------------------*/
+
+    current_node->query_type = "TQ_1_B";
 
     if (!output->success) {
       output->next_transaction_ID = current_transaction_ID;

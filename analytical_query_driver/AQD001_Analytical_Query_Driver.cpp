@@ -104,11 +104,13 @@ Description:
 */
 void ANALYTICAL_QUERY_DRIVER::fill_output_line(std::string* line_pointer,
                         unsigned long current_analytical_query_ID,
+                        std::string query_type,
                         uint64_t start_time,
                         uint64_t end_time,
                         unsigned long* transaction_ID_list,
                         int number_of_transactional_threads){
   *line_pointer = std::to_string(current_analytical_query_ID)
+                  + "|" + query_type
                   + "|" + std::to_string(start_time)
                   + "|" + std::to_string(end_time);
   for (int i = 0; i < number_of_transactional_threads; i++) {
@@ -134,6 +136,7 @@ bool ANALYTICAL_QUERY_DRIVER::execute_query_1(thread_data* t_data_pointer,
 
   fill_output_line(line_pointer,
                    t_data_pointer->current_analytical_query_ID,
+                   "AQ_1",
                    op_output->start_time,
                    op_output->end_time,
                    op_output->freshness_score_transaction_id_for_each_thread_list,
@@ -165,6 +168,7 @@ bool ANALYTICAL_QUERY_DRIVER::execute_query_2(thread_data* t_data_pointer,
 
   fill_output_line(line_pointer,
                    t_data_pointer->current_analytical_query_ID,
+                   "AQ_2",
                    op_output->start_time,
                    op_output->end_time,
                    op_output->freshness_score_transaction_id_for_each_thread_list,
@@ -196,6 +200,7 @@ bool ANALYTICAL_QUERY_DRIVER::execute_query_3(thread_data* t_data_pointer,
 
   fill_output_line(line_pointer,
                    t_data_pointer->current_analytical_query_ID,
+                   "AQ_3",
                    op_output->start_time,
                    op_output->end_time,
                    op_output->freshness_score_transaction_id_for_each_thread_list,
@@ -227,6 +232,7 @@ bool ANALYTICAL_QUERY_DRIVER::execute_query_4(thread_data* t_data_pointer,
 
   fill_output_line(line_pointer,
                    t_data_pointer->current_analytical_query_ID,
+                   "AQ_4",
                    op_output->start_time,
                    op_output->end_time,
                    op_output->freshness_score_transaction_id_for_each_thread_list,
@@ -258,6 +264,7 @@ bool ANALYTICAL_QUERY_DRIVER::execute_query_5(thread_data* t_data_pointer,
 
   fill_output_line(line_pointer,
                    t_data_pointer->current_analytical_query_ID,
+                   "AQ_5",
                    op_output->start_time,
                    op_output->end_time,
                    op_output->freshness_score_transaction_id_for_each_thread_list,
@@ -289,6 +296,7 @@ bool ANALYTICAL_QUERY_DRIVER::execute_query_6(thread_data* t_data_pointer,
 
   fill_output_line(line_pointer,
                    t_data_pointer->current_analytical_query_ID,
+                   "AQ_6",
                    op_output->start_time,
                    op_output->end_time,
                    op_output->freshness_score_transaction_id_for_each_thread_list,
@@ -317,7 +325,7 @@ void* ANALYTICAL_QUERY_DRIVER::thread_job(void* thread_input) {
   if (t_data.config->is_freshness_score_calculation_active) {
     output_file_stream.open(t_data.output_file_name);
     output_file_stream<<"Freshness Score Data for Analytical Thread "<<t_data.thread_id<<"\n";
-    output_file_stream<<"Analytical Query ID|Start Time|End Time|Transaction ID for Thread 0|Transaction ID for Thread 1|..."<<"\n";
+    output_file_stream<<"Analytical Query ID|Query Type|Start Time|End Time|Transaction ID for Transactional Thread 0|Transaction ID for Transactional Thread 1|..."<<"\n";
   }
 
   while (get_current_epoch_time_in_milliseconds() < t_data.config->end_data_collection_timestamp) {

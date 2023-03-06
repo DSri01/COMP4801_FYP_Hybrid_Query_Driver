@@ -13,6 +13,8 @@ Description:
 #include "../Query_3/TQD005_Query_3_Handler.h"
 #include "../Query_6/TQD008_Query_6_Handler.h"
 
+#include <string>
+
 #ifndef TQD003_QUERY_1_B_HANDLER_H
 #define TQD003_QUERY_1_B_HANDLER_H
 
@@ -28,6 +30,7 @@ namespace TQ_1_B {
   struct transactions_linked_list_node {
     uint64_t start_time;
     uint64_t end_time;
+    std::string query_type;
     unsigned long transaction_ID;
     transactions_linked_list_node* next;
   };

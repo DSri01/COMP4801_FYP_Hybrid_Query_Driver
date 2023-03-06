@@ -138,6 +138,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_1_A(thread_data* t_data_pointer,
   TQ_1_A::output_struct* op_output = new TQ_1_A::output_struct();
   TQ_1_A::perform_operation(config, op_output, op_input);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_1_A"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -169,6 +170,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_1_B(thread_data* t_data_pointer,
   TQ_1_B::transactions_linked_list_node* to_delete_pointer = current_node_pointer;
   for (int i = 0; i < op_output->number_of_transactions; i++) {
     *line_pointer = *line_pointer + std::to_string(current_node_pointer->transaction_ID)
+                    + "|" + current_node_pointer->query_type
                     + "|" + std::to_string(current_node_pointer->start_time)
                     + "|" + std::to_string(current_node_pointer->end_time)
                     + "\n";
@@ -176,7 +178,9 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_1_B(thread_data* t_data_pointer,
     delete to_delete_pointer;
     to_delete_pointer = current_node_pointer;
   }
-  //delete to_delete_pointer;
+  if (to_delete_pointer != nullptr) {
+    delete to_delete_pointer;
+  }
   delete op_output;
 
   return true;
@@ -193,6 +197,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_2(thread_data* t_data_pointer,
   TQ_2::output_struct* op_output = new TQ_2::output_struct();
   TQ_2::perform_operation(config, op_output, t_data_pointer->current_transaction_ID, t_data_pointer->thread_id);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_2"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -218,6 +223,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_3(thread_data* t_data_pointer,
   TQ_3::output_struct* op_output = new TQ_3::output_struct();
   TQ_3::perform_operation(config, op_output, t_data_pointer->current_transaction_ID, t_data_pointer->thread_id);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_3"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -243,6 +249,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_4(thread_data* t_data_pointer,
   TQ_4::output_struct* op_output = new TQ_4::output_struct();
   TQ_4::perform_operation(config, op_output, t_data_pointer->current_transaction_ID, t_data_pointer->thread_id);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_4"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -267,6 +274,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_5(thread_data* t_data_pointer,
   TQ_5::output_struct* op_output = new TQ_5::output_struct();
   TQ_5::perform_operation(config, op_output, t_data_pointer->current_transaction_ID, t_data_pointer->thread_id);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_5"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -292,6 +300,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_6(thread_data* t_data_pointer,
   TQ_6::output_struct* op_output = new TQ_6::output_struct();
   TQ_6::perform_operation(config, op_output, t_data_pointer->current_transaction_ID, t_data_pointer->thread_id);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_6"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -317,6 +326,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_7(thread_data* t_data_pointer,
   TQ_7::output_struct* op_output = new TQ_7::output_struct();
   TQ_7::perform_operation(config, op_output, t_data_pointer->current_transaction_ID, t_data_pointer->thread_id);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_7"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -347,6 +357,7 @@ bool TRANSACTIONAL_QUERY_DRIVER::execute_query_8(thread_data* t_data_pointer,
   TQ_8::output_struct* op_output = new TQ_8::output_struct();
   TQ_8::perform_operation(config, op_output, op_input);
   *line_pointer = std::to_string(t_data_pointer->current_transaction_ID)
+                  + "|TQ_8"
                   + "|" + std::to_string(op_output->start_time)
                   + "|" + std::to_string(op_output->end_time)
                   + "\n";
@@ -376,7 +387,7 @@ void* TRANSACTIONAL_QUERY_DRIVER::thread_job(void* thread_input) {
   if (t_data.config->is_freshness_score_calculation_active) {
     output_file_stream.open(t_data.output_file_name);
     output_file_stream<<"Freshness Score Data for Transactional Thread "<<t_data.thread_id<<"\n";
-    output_file_stream<<"Transaction ID|Start Time|End Time"<<"\n";
+    output_file_stream<<"Transaction ID|Query Type|Start Time|End Time"<<"\n";
   }
 
   while (get_current_epoch_time_in_milliseconds() < t_data.config->end_data_collection_timestamp) {

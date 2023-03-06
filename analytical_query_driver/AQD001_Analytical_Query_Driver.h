@@ -49,7 +49,7 @@ namespace ANALYTICAL_QUERY_DRIVER {
 
   int sample_query_type(double*, double);
 
-  void fill_output_line(std::string*, unsigned long, uint64_t, uint64_t, unsigned long*, int);
+  void fill_output_line(std::string*, unsigned long, std::string, uint64_t, uint64_t, unsigned long*, int);
 
   bool execute_query_1(thread_data*, std::string*, analytical_driver_config*);
 
