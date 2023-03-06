@@ -41,7 +41,12 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
   double copy_from_leader_list_2_prob_weight = config->query_1_B_configs.copy_from_leader_list_2_probability;
   double copy_from_a_friend_prob_weight = config->query_1_B_configs.copy_a_friend_probability;
 
-  while (not_found_trade_ID) {
+  int max_trade_ID_scan_attempts = 5;
+
+  int current_trade_ID_scan_attempts = 0;
+
+  while (not_found_trade_ID && current_trade_ID_scan_attempts < max_trade_ID_scan_attempts) {
+    current_trade_ID_scan_attempts++;
     //sample until a copy trade ID is found
 
     double total_prob_weight = copy_from_leader_list_1_prob_weight
@@ -72,6 +77,7 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
       TQ_3::input_struct* query_3_input = new TQ_3::input_struct();
       query_3_input->transaction_ID = current_transaction_ID;
       query_3_input->read_investor_ID = leader_ID;
+      query_3_input->thread_ID = input->thread_ID;
 
       TQ_3::output_struct* query_3_output = new TQ_3::output_struct();
 
@@ -103,6 +109,7 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
       TQ_6::input_struct* query_6_input = new TQ_6::input_struct();
       query_6_input->transaction_ID = current_transaction_ID;
       query_6_input->read_investor_ID = copier_investor_ID;
+      query_6_input->thread_ID = input->thread_ID;
 
       TQ_6::output_struct* query_6_output = new TQ_6::output_struct();
 
@@ -136,29 +143,35 @@ void TQ_1_B::operation_handler(struct input_struct* input, struct output_struct*
     }
   }
 
-  uint64_t current_timestamp = get_current_epoch_time_in_milliseconds();
+  if (!not_found_trade_ID) {
+    uint64_t current_timestamp = get_current_epoch_time_in_milliseconds();
 
-  /*--------------------------------------------------------------------------*/
-  /*--------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------*/
 
-  //perform the operation with the help of copier_investor_ID, trade_ID_to_copy and current_timestamp
+    //perform the operation with the help of copier_investor_ID, trade_ID_to_copy and current_timestamp
 
-  current_node->start_time = get_current_epoch_time_in_milliseconds();
-  //perform operation here
-  current_node->end_time = get_current_epoch_time_in_milliseconds();
+    current_node->start_time = get_current_epoch_time_in_milliseconds();
+    //perform operation here
+    current_node->end_time = get_current_epoch_time_in_milliseconds();
 
-  output->success = true;
+    output->success = true;
 
-  /*--------------------------------------------------------------------------*/
-  /*--------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------*/
 
-  if (!output->success) {
-    output->next_transaction_ID = current_transaction_ID;
+    if (!output->success) {
+      output->next_transaction_ID = current_transaction_ID;
+    }
+    else {
+      current_node->transaction_ID = current_transaction_ID;
+      output->number_of_transactions += 1;
+      output->next_transaction_ID = current_transaction_ID + 1;
+    }
   }
   else {
-    current_node->transaction_ID = current_transaction_ID;
-    output->number_of_transactions += 1;
-    output->next_transaction_ID = current_transaction_ID + 1;
+    output->success = false;
+    output->next_transaction_ID = current_transaction_ID;
   }
 }
 

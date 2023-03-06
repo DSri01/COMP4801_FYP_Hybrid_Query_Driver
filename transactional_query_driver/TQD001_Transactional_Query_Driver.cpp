@@ -392,9 +392,14 @@ void* TRANSACTIONAL_QUERY_DRIVER::thread_job(void* thread_input) {
         current_operation_success = execute_query_1_A(&t_data, &current_line, t_data.config);
         break;
       case 1:
-        //run query 1_B
+        //run query 1_B only in data collection period
         //convert output to line
-        current_operation_success = execute_query_1_B(&t_data, &current_line, t_data.config);
+        if (get_current_epoch_time_in_milliseconds() > t_data.config->end_warmup_timestamp) {
+          current_operation_success = execute_query_1_B(&t_data, &current_line, t_data.config);
+        }
+        else {
+          current_operation_success = false;
+        }
         break;
       case 2:
         //run query 2
